@@ -187,6 +187,8 @@ load_nat() {
 	done                                                                  
 	ipset -N customize_black iphash -!  
 	ipset -N customize_white iphash -!	
+	iptables -t nat -A SHADOWSOCK -p tcp -m set --match-set customize_white dst -j RETURN
+	iptables -t mangle -A SHADOWSOCK -p udp -m set --match-set customize_white dst -j RETURN
 
 }
 
@@ -207,32 +209,32 @@ start() {
     	
 	logsh "【$service】" "启动ss主进程($id)..."
 	case $ss_mode in
-	    "gfwlist")
-	        	service_start $APPPATH -b 0.0.0.0 -c $CONFIG   
-	        	if [ $? -ne 0 ]; then
-	            	logsh "【$service】" "启动失败！"
-	            	exit
-	        	fi
-	        	ss_gfwlist
-	        	;;
-	    "whitelist")
-	    	service_start $APPPATH -b 0.0.0.0 -c $CONFIG
-	    	if [ $? -ne 0 ]; then                                                                                                  
-	                    logsh "【$service】" "启动失败！"                       
-	                    exit                                
-	        fi
-	        ss_whitelist
-	        ;;
-	    "wholemode")
-        	service_start $APPPATH -b 0.0.0.0 -c $CONFIG 
-        	if [ $? -ne 0 ]; then
-            	logsh "【$service】" "启动失败！"
-            	exit
-        	fi
-        	ss_wholemode
-        	;;
-	"empty")
-		logsh "【$service】" "未启动ss进程！"
+		"gfwlist")
+			service_start $APPPATH -b 0.0.0.0 -c $CONFIG   
+			if [ $? -ne 0 ]; then
+		    	logsh "【$service】" "启动失败！"
+		    	exit
+			fi
+			ss_gfwlist
+			;;
+		"whitelist")
+			service_start $APPPATH -b 0.0.0.0 -c $CONFIG
+			if [ $? -ne 0 ]; then                                                                                                  
+		            logsh "【$service】" "启动失败！"                       
+		            exit                                
+			fi
+			ss_whitelist
+			;;
+		"wholemode")
+			service_start $APPPATH -b 0.0.0.0 -c $CONFIG 
+			if [ $? -ne 0 ]; then
+				logsh "【$service】" "启动失败！"
+				exit
+			fi
+			ss_wholemode
+			;;
+		*)
+			logsh "【$service】" "ss运行模式错误！"
 	esac
 
 	if [ "$ssg_enable" == 1 ]; then             
@@ -256,8 +258,8 @@ start() {
 			ss_addudp
 			ss_frgame
 			;;
-		"empty")
-			logsh "【$service】" "未启动ss游戏进程！"
+		*)
+			logsh "【$service】" "ss游戏模式错误！"
 		esac
 	fi
 	
@@ -279,13 +281,13 @@ start() {
 ss_gfwlist() {
 
 	logsh "【$service】" "添加国外黑名单规则..."
-	cat $gfwlist $customize_black | while read line                                             
+	cat $gfwlist | while read line                                             
 	do                                                                         
 		echo "server=/.$line/127.0.0.1#15353" >> /etc/dnsmasq.d/gfwlist_ipset.conf
 		echo "ipset=/.$line/gfwlist" >> /etc/dnsmasq.d/gfwlist_ipset.conf  
 	done    
 	ipset -N gfwlist iphash -!
-	iptables -t nat -A SHADOWSOCK -p tcp -m set --match-set customize_white dst -j RETURN
+	iptables -t nat -A SHADOWSOCK -p tcp -m set --match-set customize_black dst -j REDIRECT --to-port 1081
 	iptables -t nat -A SHADOWSOCK -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
 
 }
@@ -313,7 +315,7 @@ ss_cngame() {
 
 	logsh "【$service】" "添加国内游戏iptables规则..."
 	
-	iptables -t mangle -A SHADOWSOCK -p udp -m set ! --match-set customize_white dst -j TPROXY --on-port 1085 --tproxy-mark 0x01/0x01         
+	iptables -t mangle -A SHADOWSOCK -p udp -j TPROXY --on-port 1085 --tproxy-mark 0x01/0x01         
 
 }
 
