@@ -46,44 +46,17 @@ set_config() {
 		worker_rlimit_nofile 65535;
 
 		events {
-
-		    use epoll;
-		    multi_accept on;
-		    worker_connections 51200;
-
+		    worker_connections 1024;
 		}
 
 		http {
 
-		    sendfile                        on;
-		    tcp_nopush                      on;
-		    tcp_nodelay                     on;
-		    default_type                    application/octet-stream;
-		    server_tokens                   off;
-		    keepalive_timeout               60;
-		    client_max_body_size            2000m;
-		    client_body_temp_path           /opt/tmp/;
-		    client_header_buffer_size       8k;
-		    large_client_header_buffers     4 32k;
-		    server_names_hash_bucket_size   128;
-		    gzip                            on;
-		    gzip_vary                       on;
-		    gzip_proxied                    expired no-cache no-store private no_last_modified no_etag auth;
-		    gzip_types                      application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
-		    gzip_disable                    "MSIE [1-6]\.";
-		    gzip_buffers                    4 16k;
-		    gzip_comp_level                 4;
-		    gzip_min_length                 1k;
-		    gzip_http_version               1.1;
-		    fastcgi_buffers                 4 64k;
-		    fastcgi_buffer_size             64k;
-		    fastcgi_send_timeout            300;
-		    fastcgi_read_timeout            300;
-		    fastcgi_connect_timeout         300;
-		    fastcgi_busy_buffers_size       128k;
-		    fastcgi_temp_file_write_size    256k;
-		    include                         mime.types;
-		    include                         /opt/etc/nginx/vhost/*.conf;
+		    include                mime.types;
+		    sendfile               on;
+		    default_type           application/octet-stream;
+		    keepalive_timeout      65;
+		    client_max_body_size   4G;
+		    include                /opt/etc/nginx/vhost/*.conf;
 
 		}
 		EOF
