@@ -215,7 +215,7 @@ restart () {
 status() {
 
 	result=$(ps | grep -E 'nginx|php-cgi' | grep -v sysa | grep -v grep | wc -l)
-	if [ "$result" -lt '5' ] && [ ! -f "$CONF" ]; then
+	if [ "$result" -lt '5' ] || [ ! -f "$CONF" ]; then
 		echo "未运行"
 		echo "0"
 	else
