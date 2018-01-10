@@ -193,12 +193,17 @@ load_nat() {
 }
 
 update_config() {
-	curl -sLo /tmp/gfwlist.conf https://cokebar.github.io/gfwlist2dnsmasq/gfwlist_domain.txt
-	[ $? -eq 0 ] && cp /tmp/gfwlist.conf $gfwlist 
-	rm -rf /tmp/gfwlist.conf
-	curl -sLo /tmp/chnroute.txt https://koolshare.ngrok.wang/maintain_files/chnroute.txt
-	[ $? -eq 0 ] && cp /tmp/chnroute.txt $chnroute
-	rm -rf /tmp/chnroute.txt
+
+	result=$(ps | grep "init.sh" | grep -v grep | wc -l)
+	if [ "$result" != '0' ]; then
+		logsh "【$service】" "更新$appname分流规则"
+		curl -sLo /tmp/gfwlist.conf https://cokebar.github.io/gfwlist2dnsmasq/gfwlist_domain.txt
+		[ $? -eq 0 ] && cp /tmp/gfwlist.conf $gfwlist 
+		rm -rf /tmp/gfwlist.conf
+		curl -sLo /tmp/chnroute.txt https://koolshare.ngrok.wang/maintain_files/chnroute.txt
+		[ $? -eq 0 ] && cp /tmp/chnroute.txt $chnroute
+		rm -rf /tmp/chnroute.txt
+	fi
 }
 
 start() {
