@@ -11,9 +11,10 @@
 	7. Ngrok		内网穿透(比较轻量级)
 	8. WebShell　		网页ssh
 	9. TinyProxy		http代理
-	10. Entware　		opkg软件包工具(仅支持硬盘路由)
-	11. KodExplorer　	可道云，在线文档管理器(依赖于Entware，仅支持硬盘路由)
-	12. EasyExplorer　	文件传输同步工具(仅支持硬盘路由)
+	10. Entware　		opkg软件包工具(仅支持arm路由)
+	11. KodExplorer　	可道云，在线文档管理器(依赖于Entware，仅支持arm路由)
+	12. EasyExplorer　	文件传输同步工具(仅支持arm路由)
+	13. HttpFile 		http文件查看工具(依赖于Entware，仅支持arm路由)
 	工具箱没有web界面，完全靠Shell开发，插件的安装、卸载、配置由配置文件完成。
 	安装完成后执行monlor命令配置工具箱，Ctrl + c或者输入exit可以退出。
 	才疏学浅，但有一颗学习和折腾的心！
