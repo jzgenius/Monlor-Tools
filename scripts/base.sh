@@ -1,7 +1,8 @@
 #!/bin/sh
 #copyright by monlor
 
-monlorurl="https://coding.net/u/monlor/p/Monlor-Tools/git/raw/master"
+monlorurl=$(uci -q get monlor.tools.url)
+#monlorurl="https://coding.net/u/monlor/p/Monlor-Tools/git/raw/master"
 #monlorurl="https://coding.net/u/monlor/p/Monlor-Test/git/raw/master"
 #monlorurl="https://raw.githubusercontent.com/monlor/Monlor-Tools/master"
 monlorpath=$(uci -q get monlor.tools.path)

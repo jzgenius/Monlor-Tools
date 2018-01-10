@@ -4,6 +4,7 @@
 clear
 echo -n "是否要安装Monlor Tools工具箱? 按任意键继续(Ctrl + C 退出)."
 read answer
+monlorurl="https://coding.net/u/monlor/p/Monlor-Tools/git/raw/master"
 model=$(cat /proc/xiaoqiang/model)
 if [ "$model" == "R1D" -o "$model" == "R2D" -o "$model" == "R3D"  ]; then
 	userdisk="/userdisk/data"
@@ -43,7 +44,7 @@ fi
 mount -o remount,rw /
 echo "下载工具箱文件..."
 rm -rf /tmp/monlor.tar.gz > /dev/null 2>&1
-curl -skLo /tmp/monlor.tar.gz https://coding.net/u/monlor/p/Monlor-Tools/git/raw/master/appstore/monlor.tar.gz
+curl -skLo /tmp/monlor.tar.gz "$monlorurl"/appstore/monlor.tar.gz
 [ $? -ne 0 ] && echo "文件下载失败！" && exit
 echo "解压工具箱文件"
 tar -zxvf /tmp/monlor.tar.gz -C /tmp > /dev/null 2>&1
@@ -54,6 +55,7 @@ echo "初始化工具箱..."
 [ ! -f "/etc/config/monlor" ] && cp -rf $monlorpath/config/monlor.uci /etc/config/monlor
 uci set monlor.tools.userdisk="$userdisk"
 uci set monlor.tools.path="$monlorpath"
+uci set monlor.tools.url="$monlorurl"
 uci commit monlor
 
 # if [ -f "$userdisk/.monlor.conf.bak" ]; then

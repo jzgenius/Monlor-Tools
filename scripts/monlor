@@ -32,6 +32,7 @@ manage() {
 	[ -f "$monlorbackup".tar.gz ] && result="已备份" || result="未备份"
 	echo "7. 备份插件配置($result)"
 	echo "8. 恢复插件配置"
+	echo "9. 更换工具箱下载源"
 	echo
 	read -p "请输入你的选择：" select
 	case "$select" in
@@ -106,7 +107,7 @@ manage() {
 				echo "备份完成, 配置已备份至$monlorbackup.tar.gz"
 			fi
 		;;
-		*)
+		8)
 			if [ -f "$monlorbackup".tar.gz ]; then
 				read -p "确定要恢复所有插件配置吗(将会覆盖当前配置)？[1/0] " res
 				if [ "$res" == '1' ]; then
@@ -127,6 +128,18 @@ manage() {
 			else
 				echo "未找到备份！"
 			fi
+		;;
+		9)
+			echo "1. coding下载源"
+			echo "2. github下载源"
+			echo "3. coding测试源(不建议)"
+			read -p "请选择下载源：" res
+			case "$res" in
+				1) monlorurl="https://coding.net/u/monlor/p/Monlor-Tools/git/raw/master" ;;
+				2) monlorurl="https://raw.githubusercontent.com/monlor/Monlor-Tools/master" ;;
+				3) monlorurl="https://coding.net/u/monlor/p/Monlor-Test/git/raw/master" ;;
+			esac
+			[ ! -z "$monlorurl" ] && uci set monlor.tools.url="$monlorurl"
 		;;
 		*)	
 			echo "输入有误！"
