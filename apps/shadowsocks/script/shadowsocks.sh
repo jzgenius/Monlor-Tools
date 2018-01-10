@@ -197,11 +197,11 @@ update_config() {
 	result=$(ps | grep "{init.sh}" | grep -v grep | wc -l)
 	if [ "$result" != '0' ]; then
 		logsh "【$service】" "更新$appname分流规则"
-		curl -sLo /tmp/gfwlist.conf https://cokebar.github.io/gfwlist2dnsmasq/gfwlist_domain.txt
-		[ $? -eq 0 ] && cp /tmp/gfwlist.conf $gfwlist 
+		result1=$(curl -sL -w %{http_code} -o /tmp/gfwlist.conf https://cokebar.github.io/gfwlist2dnsmasq/gfwlist_domain.txt)
+		[ "$result1" == "200" ] && cp /tmp/gfwlist.conf $gfwlist 
 		rm -rf /tmp/gfwlist.conf
-		curl -sLo /tmp/chnroute.txt https://koolshare.ngrok.wang/maintain_files/chnroute.txt
-		[ $? -eq 0 ] && cp /tmp/chnroute.txt $chnroute
+		result2=$(curl -sL -w %{http_code} -o /tmp/chnroute.txt https://koolshare.ngrok.wang/maintain_files/chnroute.txt)
+		[ "$result1" == "200" ] && cp /tmp/chnroute.txt $chnroute
 		rm -rf /tmp/chnroute.txt
 	fi
 }
