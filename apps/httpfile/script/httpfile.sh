@@ -164,7 +164,7 @@ status() {
 		echo "未运行"
 		echo "0"
 	else
-		echo "运行端口号: $port"
+		echo "运行端口号: $port, 管理目录: $path"
 		echo "1"
 	fi
 
