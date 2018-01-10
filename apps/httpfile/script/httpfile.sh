@@ -14,7 +14,7 @@ EXTRA_COMMANDS=" status backup recover"
 EXTRA_HELP="        status  Get $appname status"
 port=1688
 BIN=/opt/sbin/nginx
-CONF=$monlorpath/apps/$appname/config/$appname.conf
+CONF=/opt/etc/nginx/vhost/httpfile.conf
 LOG=/var/log/$appname.log
 path=$(uci -q get monlor.$appname.path) || path="$userdisk"
 port=$(uci -q get monlor.$appname.port) || port=88
@@ -141,6 +141,7 @@ stop () {
 
 	logsh "【$service】" "正在停止$appname服务... "
 	/opt/etc/init.d/S80nginx stop > /dev/null 2>&1
+	rm -rf $CONF
 	ps | grep $BIN | grep -v grep | awk '{print$1}' | xargs kill -9 > /dev/null 2>&1
 	iptables -D INPUT -p tcp --dport $port -m comment --comment "monlor-$appname" -j ACCEPT > /dev/null 2>&1
 
@@ -157,7 +158,7 @@ restart () {
 status() {
 
 	result=$(ps | grep nginx | grep -v sysa | grep -v grep | wc -l)
-	if [ "$result" == '0' ]; then
+	if [ "$result" == '0' ] || [ ! -f "$CONF" ]; then
 		echo "未运行"
 		echo "0"
 	else

@@ -198,6 +198,7 @@ stop () {
 	killall php-cgi >> /tmp/messages 2>&1
 	kill -9 $(ps | grep -E 'nginx|php-cgi' | grep -v sysa | grep -v grep | awk '{print$1}') > /dev/null 2>&1
 	umount $WWW/data/User/admin/home > /dev/null 2>&1
+	rm -rf $CONF
 	iptables -D INPUT -p tcp --dport $port -m comment --comment "monlor-$appname" -j ACCEPT > /dev/null 2>&1
 
 }
@@ -213,7 +214,7 @@ restart () {
 status() {
 
 	result=$(ps | grep -E 'nginx|php-cgi' | grep -v sysa | grep -v grep | wc -l)
-	if [ "$result" -lt '5' ]; then
+	if [ "$result" -lt '5' ] && [ ! -f "$CONF" ]; then
 		echo "未运行"
 		echo "0"
 	else
