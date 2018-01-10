@@ -69,14 +69,10 @@ reset() {
   	git commit -am "`date +%Y-%m-%d`"
    	git branch -D master
    	git branch -m master
-<<<<<<< 49b00a1986a6e5f445506a128c32199f87742652
-   	git push -f origin master
-=======
    #	git push -f origin master
 	github
 	coding
 	test
->>>>>>> 2018-01-09
 
 }
 
