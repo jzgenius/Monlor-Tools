@@ -2,9 +2,9 @@
 #copyright by monlor
 
 monlorurl=$(uci -q get monlor.tools.url)
-#monlorurl="https://coding.net/u/monlor/p/Monlor-Tools/git/raw/master"
-#monlorurl="https://coding.net/u/monlor/p/Monlor-Test/git/raw/master"
-#monlorurl="https://raw.githubusercontent.com/monlor/Monlor-Tools/master"
+monlorurl_coding="https://coding.net/u/monlor/p/Monlor-Tools/git/raw/master"
+monlorurl_github="https://coding.net/u/monlor/p/Monlor-Test/git/raw/master"
+monlorurl_test="https://raw.githubusercontent.com/monlor/Monlor-Tools/master"
 monlorpath=$(uci -q get monlor.tools.path)
 userdisk=$(uci -q get monlor.tools.userdisk)
 monlorconf="$monlorpath/scripts/monlor"

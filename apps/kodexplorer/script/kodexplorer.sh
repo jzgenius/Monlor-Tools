@@ -193,12 +193,12 @@ restart () {
 status() {
 
 	result=$(ps | grep -E 'nginx|php-cgi' | grep -v sysa | grep -v grep | wc -l)
-	if [ "$result" -lt '5' ] || [ ! -f "$CONF" ]; then
-		echo "未运行"
-		echo "0"
-	else
+	if [ "$result" -ge '5' ] && [ -f "$CONF" ]; then
 		echo "运行端口号: $port, 管理目录: $path"
 		echo "1"
+	else
+		echo "未运行"
+		echo "0"
 	fi
 
 }
