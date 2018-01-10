@@ -192,6 +192,15 @@ load_nat() {
 
 }
 
+update_config() {
+	curl -sLo /tmp/gfwlist.conf https://cokebar.github.io/gfwlist2dnsmasq/gfwlist_domain.txt
+	[ $? -eq 0 ] && cp /tmp/gfwlist.conf $gfwlist 
+	rm -rf /tmp/gfwlist.conf
+	curl -sLo /tmp/chnroute.txt https://koolshare.ngrok.wang/maintain_files/chnroute.txt
+	[ $? -eq 0 ] && cp /tmp/chnroute.txt $chnroute
+	rm -rf /tmp/chnroute.txt
+}
+
 start() {
 
 	[ ! -s $SER_CONF ] && logsh "【$service】" "没有添加ss服务器!" && exit 
@@ -203,6 +212,8 @@ start() {
 
 	get_config
 	
+	update_config
+
 	dnsconfig            
 
 	load_nat
