@@ -19,8 +19,8 @@ pack() {
 	cp -rf config/ monlor/config
 	cp -rf scripts/ monlor/scripts
 	if [ "$1" == "test" ]; then
-		sed -i $flag '4s/monlorurl/#monlorurl/' monlor/scripts/base.sh
-		sed -i $flag '5s/#//' monlor/scripts/base.sh
+		# sed -i $flag '4s/monlorurl/#monlorurl/' monlor/scripts/base.sh
+		# sed -i $flag '5s/#//' monlor/scripts/base.sh
 		cp install.sh install_test.sh
 		sed -i $flag 's/Monlor-Tools/Monlor-Test/' install_test.sh
 	fi

@@ -142,8 +142,10 @@ manage() {
 			[ ! -z "$monlorurl" ] && uci set monlor.tools.url="$monlorurl" && uci commit monlor
 		;;
 		*)	
-			echo "输入有误！"
-			manage
+			read -p "输入有误！重新输入？[1/0] " res
+			if [ "$res" == '1' ]; then
+				manage
+			fi
 		;;
 	esac
 
