@@ -33,9 +33,9 @@ manage() {
 	echo "7. 备份插件配置($result)"
 	echo "8. 恢复插件配置"
 	case "$monlorurl" in
-		"monlorurl_coding") result="coding下载源" ;;
-		"monlorurl_github") result="github下载源" ;;
-		"monlorurl_test") result="coding测试源" ;;
+		"$monlorurl_coding") result="coding下载源" ;;
+		"$monlorurl_github") result="github下载源" ;;
+		"$monlorurl_test") result="coding测试源" ;;
 		*) result="当前下载源错误！"
 	esac
 	echo "9. 更换工具箱下载源($result)"
@@ -142,8 +142,8 @@ manage() {
 			read -p "请选择下载源：" res
 			case "$res" in
 				1) monlorurl="$monlorurl_coding" ;;
-				2) monlorurl="monlorurl_github" ;;
-				3) monlorurl="monlorurl_test" ;;
+				2) monlorurl="$monlorurl_github" ;;
+				3) monlorurl="$monlorurl_test" ;;
 			esac
 			[ ! -z "$monlorurl" ] && uci set monlor.tools.url="$monlorurl" && uci commit monlor
 		;;
