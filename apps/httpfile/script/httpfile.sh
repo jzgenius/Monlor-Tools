@@ -143,8 +143,13 @@ start () {
 stop () {
 
 	logsh "【$service】" "正在停止$appname服务... "
-	# /opt/etc/init.d/S80nginx stop > /dev/null 2>&1
 	rm -rf $CONF
+	result=$(uci -q get monlor.kodexplorer.enable)
+	if [ "$result" == '1' ]; then
+		/opt/etc/init.d/S80nginx restart >> /tmp/messages 2>&1
+	else
+		/opt/etc/init.d/S80nginx stop >> /tmp/messages 2>&1
+	fi
 	iptables -D INPUT -p tcp --dport $port -m comment --comment "monlor-$appname" -j ACCEPT > /dev/null 2>&1
 
 }
