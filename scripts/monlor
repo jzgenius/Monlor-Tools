@@ -139,7 +139,7 @@ manage() {
 				2) monlorurl="https://raw.githubusercontent.com/monlor/Monlor-Tools/master" ;;
 				3) monlorurl="https://coding.net/u/monlor/p/Monlor-Test/git/raw/master" ;;
 			esac
-			[ ! -z "$monlorurl" ] && uci set monlor.tools.url="$monlorurl"
+			[ ! -z "$monlorurl" ] && uci set monlor.tools.url="$monlorurl" && uci commit monlor
 		;;
 		*)	
 			echo "输入有误！"
