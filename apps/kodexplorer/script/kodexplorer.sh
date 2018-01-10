@@ -152,7 +152,7 @@ set_config() {
 start () {
 
 	result=$(ps | grep -E 'nginx|php-cgi' | grep -v sysa | grep -v grep | wc -l)
-    	if [ "$result" != '0' ];then
+    	if [ "$result" != '0' ] && [ -f "$CONF" ];then
 		logsh "【$service】" "$appname已经在运行！"
 		exit 1
 	fi
