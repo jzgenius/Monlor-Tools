@@ -10,3 +10,4 @@ tinyproxy
 entware
 kodexplorer
 easyexplorer
+httpfile
