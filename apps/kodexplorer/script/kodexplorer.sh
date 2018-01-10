@@ -194,9 +194,9 @@ start () {
 stop () {
 
 	logsh "【$service】" "正在停止$appname服务... "
-	/opt/etc/init.d/S80nginx stop >> /tmp/messages 2>&1
+	# /opt/etc/init.d/S80nginx stop >> /tmp/messages 2>&1
 	killall php-cgi >> /tmp/messages 2>&1
-	kill -9 $(ps | grep -E 'nginx|php-cgi' | grep -v sysa | grep -v grep | awk '{print$1}') > /dev/null 2>&1
+	kill -9 $(ps | grep 'php-cgi' | grep -v sysa | grep -v grep | awk '{print$1}') > /dev/null 2>&1
 	umount $WWW/data/User/admin/home > /dev/null 2>&1
 	rm -rf $CONF
 	iptables -D INPUT -p tcp --dport $port -m comment --comment "monlor-$appname" -j ACCEPT > /dev/null 2>&1
