@@ -14,6 +14,7 @@ EXTRA_COMMANDS=" status backup recover"
 EXTRA_HELP="        status  Get $appname status"
 port=1688
 BIN=/opt/sbin/nginx
+NGINXCONF=/opt/etc/nginx/nginx.conf
 CONF=/opt/etc/nginx/vhost/httpfile.conf
 LOG=/var/log/$appname.log
 path=$(uci -q get monlor.$appname.path) || path="$userdisk"
