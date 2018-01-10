@@ -288,7 +288,7 @@ start() {
 	iptables -t nat -I PREROUTING "$iptablenu" -p tcp -j SHADOWSOCKS
 	[ "$ssg_enable" == '1' ] && iptables -t mangle -A PREROUTING -p udp -j SHADOWSOCKS
 
-	/etc/init.d/dnsmasq restart
+	# /etc/init.d/dnsmasq restart
 	logsh "【$service】" "启动$appname服务完成！"
 
 }
@@ -395,7 +395,7 @@ stop_ss_rules() {
 	rm -rf $SSGBIN
 	rm -rf /etc/dnsmasq.d/gfwlist_ipset.conf > /dev/null 2>&1
 	rm -rf /etc/dnsmasq.d/customize_*.conf > /dev/null 2>&1
-	/etc/init.d/dnsmasq restart
+	# /etc/init.d/dnsmasq restart
 }
 
 
