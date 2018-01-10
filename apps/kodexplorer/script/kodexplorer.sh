@@ -22,6 +22,7 @@ CONF="/opt/etc/nginx/vhost/kodexplorer.conf"
 LOG=/var/log/$appname.log
 path=$(uci -q get monlor.$appname.path) 
 port=$(uci -q get monlor.$appname.port) || port=81
+lanip=$(uci get network.lan.ipaddr)
 opkg_list="php7-cgi php7-mod-curl php7-mod-gd php7-mod-iconv php7-mod-json php7-mod-mbstring php7-mod-opcache php7-mod-session php7-mod-zip nginx spawn-fcgi zoneinfo-core zoneinfo-asia"
 
 set_config() {
@@ -187,7 +188,7 @@ start () {
 		exit
     fi
     logsh "【$service】" "$appname服务启动完成"
-    logsh "【$service】" "请在浏览器中访问[http://192.168.31.1:$port]配置"
+    logsh "【$service】" "请在浏览器中访问[http://$lanip:$port]配置"
 
 }
 

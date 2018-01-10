@@ -17,6 +17,7 @@ BIN=/opt/sbin/nginx
 NGINXCONF=/opt/etc/nginx/nginx.conf
 CONF=/opt/etc/nginx/vhost/httpfile.conf
 LOG=/var/log/$appname.log
+lanip=$(uci get network.lan.ipaddr)
 path=$(uci -q get monlor.$appname.path) || path="$userdisk"
 port=$(uci -q get monlor.$appname.port) || port=88
 
@@ -97,7 +98,7 @@ set_config() {
 	}
 	EOF
 	sed -i "s/88/$port/" $CONF
-	sed -i "s/directory/$path/" $CONF
+	sed -i "s#directory#$path#" $CONF
 
 }
 
@@ -129,12 +130,13 @@ start () {
 	
 	iptables -I INPUT -p tcp --dport $port -m comment --comment "monlor-$appname" -j ACCEPT 
 	[ ! -f "/opt/etc/init.d/S80nginx" ] && logsh "【$service】" "未找到启动脚本！" && exit
-	/opt/etc/init.d/S80nginx restart
+	/opt/etc/init.d/S80nginx restart >> /tmp/messages 2>&1
 	if [ $? -ne 0 ]; then
         logsh "【$service】" "启动$appname服务失败！"
 		exit
     fi
     logsh "【$service】" "启动$appname服务完成！"
+    logsh "【$service】" "请在浏览器中访问[http://$lanip:$port]"
 
 }
 
