@@ -194,7 +194,7 @@ load_nat() {
 
 update_config() {
 
-	result=$(ps | grep "init.sh" | grep -v grep | wc -l)
+	result=$(ps | grep "{init.sh}" | grep -v grep | wc -l)
 	if [ "$result" != '0' ]; then
 		logsh "【$service】" "更新$appname分流规则"
 		curl -sLo /tmp/gfwlist.conf https://cokebar.github.io/gfwlist2dnsmasq/gfwlist_domain.txt
