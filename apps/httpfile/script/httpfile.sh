@@ -129,7 +129,7 @@ start () {
 	
 	iptables -I INPUT -p tcp --dport $port -m comment --comment "monlor-$appname" -j ACCEPT 
 	[ ! -f "/opt/etc/init.d/S80nginx" ] && logsh "【$service】" "未找到启动脚本！" && exit
-	/opt/etc/init.d/S80nginx start
+	/opt/etc/init.d/S80nginx restart
 	if [ $? -ne 0 ]; then
         logsh "【$service】" "启动$appname服务失败！"
 		exit

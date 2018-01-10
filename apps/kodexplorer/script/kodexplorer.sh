@@ -176,7 +176,7 @@ start () {
 	set_config
 	
 	iptables -I INPUT -p tcp --dport $port -m comment --comment "monlor-$appname" -j ACCEPT 
-	/opt/etc/init.d/S80nginx start >> /tmp/messages 2>&1
+	/opt/etc/init.d/S80nginx restart >> /tmp/messages 2>&1
 	if [ $? -ne 0 ]; then
 		logsh "【$service】" "启动nginx服务失败！"
 		exit
